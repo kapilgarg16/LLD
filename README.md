@@ -11,6 +11,7 @@ https://www.baeldung.com/java-initialize-hashmap
 https://www.geeksforgeeks.org/initializing-a-list-in-java/
 https://www.w3schools.com/java/java_date.asp
 
+Rules for machine coding interview
 
 	- Go through the question thoroughly and see all the requirement
 	- Make your code working by using simple classes and see all the corner cases
