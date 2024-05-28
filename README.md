@@ -12,7 +12,6 @@ https://www.geeksforgeeks.org/initializing-a-list-in-java/
 https://www.w3schools.com/java/java_date.asp
 
 
-Machine coding guidelines:
 	- Go through the question thoroughly and see all the requirement
 	- Make your code working by using simple classes and see all the corner cases
 	- Code should be demoable (fast and focus that code should be demoable) and extinsble
@@ -29,6 +28,3 @@ Machine coding guidelines:
 			§ Solid principles
 			§ Approach you are using
 	
-	
-	- .Dheere Dheer bona h, and sunna h dhyan se
-![image](https://github.com/kapilgarg16/LLD/assets/55026503/1291783d-19c0-43c6-94b9-5edf77ac08d3)
