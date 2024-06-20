@@ -1,1 +1,2 @@
+ The elevator car could be in different states, either up or down, or could be stopped on some floor. Anyone can request an elevator car from any floor using the buttons on the panel.
 
