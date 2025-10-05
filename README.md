@@ -28,4 +28,11 @@ Rules for machine coding interview
 			§ Class relationship
 			§ Solid principles
 			§ Approach you are using
-	
+
+
+
+
+Use cases for streetagy patterm https://www.freecodecamp.org/news/a-beginners-guide-to-the-strategy-design-pattern/#:~:text=The%20Strategy%20Design%20Pattern%20is,statically%20choosing%20a%20single%20one. https://www.youtube.com/watch?v=129QkkXUHeQ&list=PL6W8uoQQ2c61X_9e6Net0WdYZidm7zooW&index=3&pp=iAQB
+
+Use cases for OBSERVER patterm https://www.geeksforgeeks.org/observer-pattern-set-1-introduction/
+https://www.youtube.com/watch?v=Ep9_Zcgst3U&list=PL6W8uoQQ2c61X_9e6Net0WdYZidm7zooW&index=5&pp=iAQB
