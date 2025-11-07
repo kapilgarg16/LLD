@@ -1,0 +1,128 @@
+Perfect 💪 Kapil — let’s make a **very simple, clean class diagram** for your **Token Bucket Rate Limiter LLD**, just like a recruiter would expect in an interview.
+
+No clutter, no fancy patterns — just clarity.
+This is what you can **draw on a whiteboard or explain in 2 minutes** during an LLD round.
+
+---
+
+# 🧱 Components Overview
+
+We have 3 small classes:
+
+1. **`TokenBucket`** – represents a bucket for one client.
+   Handles refill & token consumption.
+2. **`RateLimiter`** – manages multiple clients’ buckets (using a map).
+   Provides the main API `allow(clientId)`.
+3. **`Main`** – test or driver class that simulates requests (for demo).
+
+---
+
+# 🧩 Simple Class Diagram (text / ASCII version)
+
+```
++---------------------------+
+|        TokenBucket        |
++---------------------------+
+| - capacity: double        |
+| - refillPerSecond: double |
+| - tokens: double          |
+| - lastRefillMs: long      |
++---------------------------+
+| + TokenBucket(capacity, refillRate) |
+| + tryConsumeOne(): boolean          |
+| + getTokens(): double               |
++---------------------------+
+
+
+              1
+ RateLimiter *----------------------> TokenBucket
+     (has many buckets, one per client)
+
+
++---------------------------+
+|        RateLimiter        |
++---------------------------+
+| - defaultCapacity: double |
+| - defaultRefillPerSecond: double |
+| - buckets: Map<String, TokenBucket> |
++---------------------------+
+| + RateLimiter(capacity, refillRate) |
+| + allow(clientId): boolean          |
+| + tokensLeft(clientId): Double      |
++---------------------------+
+
+
++---------------------------+
+|           Main            |
++---------------------------+
+| + main(String[] args): void |
++---------------------------+
+        |
+        v
+Uses RateLimiter (creates & tests it)
+```
+
+---
+
+# 🧠 How to Explain This to a Recruiter (2-min pitch)
+
+> I’ve designed a **simple Fixed Token Bucket Rate Limiter**.
+>
+> * The **`TokenBucket`** class encapsulates all logic for a single user’s rate limit — like refill, consumption, and tracking last refill time.
+> * The **`RateLimiter`** class holds a map of `clientId → TokenBucket`, so it can handle many users independently. It exposes a single public method `allow(clientId)` to check if a request can pass.
+> * Finally, **`Main`** is just for testing; it simulates requests and prints whether they are allowed or rejected.
+>
+> The design is **modular**, easy to extend, and follows **composition** — `RateLimiter` *has* `TokenBucket` objects.
+
+---
+
+# 🧩 UML (PlantUML version — if you want to visualize later)
+
+```plantuml
+@startuml
+title Simple Token Bucket Rate Limiter - LLD
+
+class TokenBucket {
+  - double capacity
+  - double refillPerSecond
+  - double tokens
+  - long lastRefillMs
+  --
+  + TokenBucket(double, double)
+  + boolean tryConsumeOne()
+  + double getTokens()
+}
+
+class RateLimiter {
+  - double defaultCapacity
+  - double defaultRefillPerSecond
+  - Map<String, TokenBucket> buckets
+  --
+  + RateLimiter(double, double)
+  + boolean allow(String clientId)
+  + Double tokensLeft(String clientId)
+}
+
+class Main {
+  + static void main(String[] args)
+}
+
+RateLimiter "1" *-- "*" TokenBucket : manages >
+Main --> RateLimiter : uses >
+@enduml
+```
+
+---
+
+# 🗣️ How you can *explain patterns* (in simple Hinglish)
+
+> Yeh design **composition pattern** use karta hai —
+> matlab `RateLimiter` ke andar multiple `TokenBucket` objects hote hain (per client).
+> Har `TokenBucket` apna state maintain karta hai (tokens, time, refill).
+> Yeh design **modular** hai, easy to scale and test.
+>
+> Aap future me agar thread-safety, Redis ya distributed system add karna chahein to bas `TokenBucket` ya `RateLimiter` extend karna hai — structure same rahega.
+
+---
+
+Would you like me to add a **simple time-flow diagram** next — showing how tokens refill & get consumed visually (something you can draw beside the class diagram in interview)?
