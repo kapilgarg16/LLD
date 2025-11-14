@@ -126,3 +126,100 @@ Main --> RateLimiter : uses >
 ---
 
 Would you like me to add a **simple time-flow diagram** next — showing how tokens refill & get consumed visually (something you can draw beside the class diagram in interview)?
+
+-------------------------------------------------
+
+example:
+
+Sure Kapil — here is a **very simple, direct example** of how the `refill()` function works. No theory, just numbers.
+
+---
+
+# ✅ Example of `refill()` in action
+
+Assume:
+
+```
+capacity = 10 tokens
+refillPerSecond = 2 tokens per second
+```
+
+---
+
+## 🎯 Situation
+
+* At time **T = 0 seconds**, bucket has **10 tokens** (full).
+* You consume **7 tokens** quickly → now tokens = **3**.
+
+---
+
+## ⏳ After some time…
+
+You wait **4 seconds** and then call `tryConsumeOne()` again.
+
+Before consuming, `tryConsumeOne()` calls:
+
+```java
+refill();
+```
+
+Let’s see what refill does.
+
+---
+
+# 📌 Inside refill()
+
+### 1️⃣ It checks how much time has passed
+
+```
+elapsed = 4 seconds
+```
+
+### 2️⃣ It calculates how many tokens to add
+
+```
+added = 4 seconds * 2 tokens/sec = 8 tokens
+```
+
+### 3️⃣ Add to current bucket
+
+```
+tokens = 3 (current) + 8 (added) = 11
+```
+
+### 4️⃣ Cap it at max capacity
+
+```
+tokens = min(11, 10) = 10
+```
+
+### ⭐ Final result after refill
+
+```
+tokens = 10
+```
+
+The bucket becomes full again.
+
+---
+
+## 🧪 Then tryConsumeOne() uses 1 token
+
+```
+tokens = 9
+```
+
+---
+
+# 🎉 Final Summary (Very Short)
+
+* You had 3 tokens left.
+* 4 seconds passed.
+* Refill added 8 tokens.
+* Bucket capped at 10 tokens.
+* After consuming one, you have 9 left.
+
+---
+
+If you want, I can make the same example with different numbers (like small refill rate or small capacity).
+
