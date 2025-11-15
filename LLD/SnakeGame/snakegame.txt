@@ -1,0 +1,70 @@
+Short conversational explanation to present:
+
+- If game already over, ignore move.
+- Increment move counter (used for periodic growth).
+- Compute new head position with wrap-around using modulo.
+- If this is a growth move (moveCount % 5 == 0), we will not remove the tail this move.
+- Collision detection: moving into any occupied cell is a collision unless the cell is the current tail
+and the tail will be removed this move (that special case is allowed).
+- If collision → mark gameOver. Otherwise, add new head and (if not growing) remove tail.
+
+
+
+1. Overall Design (10 seconds)
+
+“My design has four small classes:
+Position, Direction, SnakeGame, and a tiny Demo class.
+SnakeGame holds the full state of the game.”
+
+2. Data Structures (15 seconds)
+I store the snake body in a Deque → head at front, tail at back.
+I also use a HashSet for O(1) collision checking.
+Position is a simple immutable row/column pair.
+Direction is just an enum with movement deltas.
+
+3. Game Logic (20 seconds)
+
+Every move:
+
+    Compute the new head using the direction.
+    Use modulo (%) to wrap around the board.
+    Snake grows every 5 moves, otherwise I remove the tail.
+
+Collision:
+
+    If new head is on the snake’s body → game over
+    Except if it’s exactly the tail and the snake is not growing
+    Add the new head and return.
+    All operations are O(1).
+
+
+
+----------
+
+
++----------------+         +-----------------+
+|  SimpleSnakeDemo|        |   Direction     |
+|  (main)         |        | <<enum>>        |
++----------------+         +-----------------+
+| + main(args)    |        | + UP            |
+| + printBoard(g) |        | + DOWN          |
++--------+--------+        | + LEFT          |
+         |                 | + RIGHT         |
+         | uses            +-----------------+
+         v
++----------------+        1  contains  *       +----------------+
+|   SnakeGame    |----------------------------|   Position     |
++----------------+                            +----------------+
+| - rows:int     |                            | - r:int        |
+| - cols:int     |                            | - c:int        |
+| - body:Deque<Position> |                      +----------------+
+| - bodySet:Set<Position>|                      | + equals(...)  |
+| - gameOver:boolean     |                      | + hashCode()   |
+| - moveCount:int        |                      | + toString()   |
++----------------+                            +----------------+
+| + SnakeGame(rows,cols) |
+| + moveSnake(dir):bool  |
+| + isGameOver():bool    |
+| + getMoveCount():int   |
+| + getSnakePositions():List<Position> |
++----------------+
