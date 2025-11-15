@@ -1,0 +1,95 @@
+
+What each class does — one line each
+
+ProjectService: the organizer — creates projects, users, issues, assigns tasks, and returns lists.
+Project: a named workspace that holds issues.
+Issue: a task with title, description, status (TODO/IN_PROGRESS/DONE), assignee, timestamps and comments.
+User: a person with id and name.
+Comment: small message attached to an issue.
+
+
+----------------
+Classes — ultra-brief (attributes → main functions → memorise line)
+
+User
+    Attributes: id, name.
+    Main funcs: constructor, getId(), getName()
+    Line: “User = id + name.”
+
+Project
+    Attributes: id, name, description.
+    Main funcs: constructor, getters.
+    Line: “Project = named workspace.”
+
+Issue
+    Attributes: id, projectId, title, description, status, assigneeUserId, createdAt, updatedAt, comments.
+    Main funcs: setters (setTitle, setDescription, setStatus, setAssignee), addComment(),
+     getters. touch() updates updatedAt.
+    Line: “Issue = task + status + assignee + comments.”
+
+Comment
+
+    Attributes: id, issueId, userId, text, createdAt.
+    Main funcs: constructor, getters.
+    Line: “Comment = who said what when.”
+
+ProjectService
+
+    Attributes: maps for users, projects, issues, plus projectIssues (project→issueIds) and
+    userAssignedIssues (user→issueIds); simple counters for ids.
+
+    Main funcs: createUser, createProject, createIssue, assignIssue, addComment,
+    listIssuesByProject, listIssuesByUser, listIssuesByStatus.
+
+    Line: “ProjectService = the organizer (creates/assigns/lists).”
+
+Quick demo script (3 steps you can say)
+
+    Create project & users.
+
+    Create issues, assign to a user, add a comment.
+
+    List issues by project/user and change status — updatedAt changes.
++------------------+
+|     ProjectService
+| - users: Map<id,User>
+| - projects: Map<id,Project>
+| - issues: Map<id,Issue>
+| - projectIssues: Map<pid, List<issueId>>
+| - userAssignedIssues: Map<uid, List<issueId>>
+| + createUser(name)
+| + createProject(name,desc)
+| + createIssue(pid,title,desc)
+| + assignIssue(issueId,userId)
+| + addComment(issueId,userId,text)
+| + listIssuesByProject(pid)
+| + listIssuesByUser(uid)
++------------------+
+        |   |   |
+        |   |   +------------------+
+        |   |                      |
+        v   v                      v
++------+   +---------+        +----------+
+| User |   | Project |        |  Issue   |
+| id   |   | id      |        | id       |
+| name |   | name    |        | title    |
++------+   | desc    |        | desc     |
+           +---------+        | status   |
+                              | assignee |
+                              | projectId|
+                              | createdAt|
+                              | updatedAt|
+                              | comments: List<Comment>
+                              +----------+
+                                     |
+                                     v
+                              +-------------+
+                              |   Comment   |
+                              | id          |
+                              | issueId     |
+                              | userId      |
+                              | text        |
+                              | createdAt   |
+                              +-------------+
+
+
