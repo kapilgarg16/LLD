@@ -1,0 +1,78 @@
+Here is a **very short, high-level explanation** you can say in an interview — simple and clear:
+
+---
+
+# ✅ **High-Level Explanation (Very Brief)**
+
+> “I built a simple **topic-based notification service**.
+
+> Users (subscribers) can subscribe to topics like *orders* or *marketing*,
+ and each user chooses what channels they want — Email, SMS, or Push.
+
+> When a notification is published to a topic, the service looks up all subscribers
+of that topic and delivers the message to each of their preferred channels.
+
+> The whole design is synchronous, in-memory, and easy to understand — no threads,
+no queues, no complex patterns — just clean data structures and simple flow.”
+
+---
+
+# One-sentence version:
+> “Publish a notification → find subscribers for that topic → send via their chosen channels.”
+
+---
+
+If you want an even shorter tagline:
+> “It’s a simple pub-sub system for sending notifications to users based on their subscriptions.”
+
+---
+
+If you want, I can also give a **2-line explanation for recruiter**, or a **10-second one-liner for interview start**.
+
+
+                         +--------------------+
+                         |    Notification    |
+                         |--------------------|
+                         | - title:String     |
+                         | - message:String   |
+                         | - priority:Enum    |
+                         |--------------------|
+                         | + getTitle()       |
+                         | + getMessage()     |
+                         | + getPriority()    |
+                         +--------------------+
+                                   ^
+                                   |
+                                   | delivered to
+                                   |
++----------------------+    1    * |   +---------------------+
+| NotificationService  |<>--------->|     Subscriber        |
+|----------------------|            |---------------------|
+| - subscribersByTopic : Map<String, |
+|     List<Subscriber> >              |
+|----------------------|            | - id:String          |
+| + subscribe(topic,s) |            | - channels:Set       |
+| + unsubscribe(t,id)  |            |---------------------|
+| + publish(topic,n)   |            | + getId()            |
+| + getSubscribers(t)  |            | + getChannels()      |
++----------------------+            +---------------------+
+
+(channel handling is inline inside publish: EMAIL/SMS/PUSH)
+
+
+
+How to explain components (2–3 lines each)
+
+Notification — simple data holder: title, message, priority.
+Use: payload carried to subscribers.
+
+Subscriber — user representation with id (email/phone/userId) and a Set of channels.
+Note: getChannels() returns an unmodifiable view in code to prevent external mutation (good encapsulation).
+
+NotificationService — central broker:
+
+subscribe(topic, subscriber) adds to in-memory list.
+
+unsubscribe(topic, userId) removes by id.
+
+publish(topic, notification) iterates subscribers and handles channels inline (if/else) and prints simulated deliveries.
