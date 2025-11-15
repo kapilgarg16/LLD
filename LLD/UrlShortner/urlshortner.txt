@@ -1,0 +1,68 @@
+Classes
+
+UrlShortenerService
+
+Stores:
+    -Map <String longURL, String shortURL>
+    -Map <String shortURL, String longURL>
+
+Methods:
+    -shortenUrl(String longUrl)
+    -expandUrl(String shortUrl)
+
+Base62Encoder
+    Simple method to convert integer counter → short code
+
+Main class
+    Demo
+
+
++-----------------------+
+|   UrlShortenerService |
+|-----------------------|
+| - longToShort: Map    |
+| - shortToLong: Map    |
+| - counter: int        |
+|-----------------------|
+| + shortenUrl(url)     |
+| + expandUrl(code)     |
++-----------+-----------+
+            |
+            v
++-----------------------+
+|     Base62Encoder     |
+|-----------------------|
+| + encode(num):String  |
++-----------------------+
+
+Main → uses UrlShortenerService
+
+
+1. High-level overview
+
+“This is a simple URL shortening service. We map long URLs to short codes using Base62 encoding of a counter.
+ We store mappings in O(1) HashMaps for quick lookups.”
+
+2. Shorten flow
+Check if URL is already shortened — return existing code
+
+Else:
+Generate a unique integer (counter++)
+Encode with Base62 → short code
+
+Store both mappings:
+
+longToShort[longUrl] = code
+shortToLong[code] = longUrl
+
+3. Expand flow
+
+Extract code from URL
+Lookup in shortToLong map
+Return long URL
+
+4. Complexity
+
+shortenUrl: O(1)
+expandUrl: O(1)
+Space: O(N)
