@@ -15,11 +15,39 @@ public class BookMyShow {
         BookMyShow bookMyShow = new BookMyShow();
         bookMyShow.intialize();
 
-        bookMyShow.createBooking(City.DELHI, "Bahubali");
-        bookMyShow.createBooking(City.DELHI, "Bahubali");
+        Show show1 = bookMyShow.createBooking(City.DELHI, "Bahubali");
+        bookMyShow.bookSeat(show1, 10);
+        Show show2 = bookMyShow.createBooking(City.DELHI, "Dangal");
+        bookMyShow.bookSeat(show2, 11);
     }
+    void bookSeat(Show interestedShow, int seat){
+        //5. select the seat
+        int seatNumber = seat;
+        List<Integer> bookedSeats = interestedShow.getBookedSeatIds();
+        if(!bookedSeats.contains(seatNumber)){
+            System.out.println("fsfsdf");
+            bookedSeats.add(seatNumber);
+//            //startPayment
+            Booking booking = new Booking();
+            List<Seats> myBookedSeats = new ArrayList<>();
+            for(Seats screenSeat : interestedShow.getScreen().getSeatsList()) {
+                if(screenSeat.getId() == seatNumber) {
+                    myBookedSeats.add(screenSeat);
+                }
+            }
+            booking.setBookingSeat(myBookedSeats);
+            booking.setShow(interestedShow);
+            System.out.println("seat is booked successfully :" + interestedShow.getMovie().getMovieName() + "  " + seat + "  " + interestedShow.getLocalTime());
 
-    void createBooking(City city, String movieName)
+        } else {
+            //throw exception
+            System.out.println("seat already booked, try again");
+            return;
+        }
+
+        System.out.println("BOOKING SUCCESSFUL");
+    }
+    Show createBooking(City city, String movieName)
     {
         //1. search movie by my location
         List<Movies> movies = movieController.getMoviesByCity(city);
@@ -41,28 +69,7 @@ public class BookMyShow {
         List<Show> runningShows = entry.getValue();
         Show interestedShow = runningShows.get(0);
 
-        //5. select the seat
-        int seatNumber = 31;
-        List<Integer> bookedSeats = interestedShow.getBookedSeatIds();
-        if(!bookedSeats.contains(seatNumber)){
-            bookedSeats.add(seatNumber);
-//            //startPayment
-            Booking booking = new Booking();
-            List<Seats> myBookedSeats = new ArrayList<>();
-            for(Seats screenSeat : interestedShow.getScreen().getSeatsList()) {
-                if(screenSeat.getId() == seatNumber) {
-                    myBookedSeats.add(screenSeat);
-                }
-            }
-            booking.setBookingSeat(myBookedSeats);
-            booking.setShow(interestedShow);
-        } else {
-            //throw exception
-            System.out.println("seat already booked, try again");
-            return;
-        }
-
-        System.out.println("BOOKING SUCCESSFUL");
+        return interestedShow;
 
     }
     //create movie and add movie in the controller

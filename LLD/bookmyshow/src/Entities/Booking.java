@@ -12,7 +12,7 @@ public class Booking {
         return show;
     }
 
-    public void setShow(Show show) {
+    public void     setShow(Show show) {
         this.show = show;
     }
 
