@@ -1,4 +1,5 @@
-Perfect 💪 Kapil — let’s make a **very simple, clean class diagram** for your **Token Bucket Rate Limiter LLD**, just like a recruiter would expect in an interview.
+Perfect 💪 Kapil — let’s make a **very simple, clean class diagram** for
+your **Token Bucket Rate Limiter LLD**, just like a recruiter would expect in an interview.
 
 No clutter, no fancy patterns — just clarity.
 This is what you can **draw on a whiteboard or explain in 2 minutes** during an LLD round.
@@ -68,7 +69,8 @@ Uses RateLimiter (creates & tests it)
 
 > I’ve designed a **simple Fixed Token Bucket Rate Limiter**.
 >
-> * The **`TokenBucket`** class encapsulates all logic for a single user’s rate limit — like refill, consumption, and tracking last refill time.
+> * The **`TokenBucket`** class encapsulates all logic for a single user’s rate limit — 
+like refill, consumption, and tracking last refill time.
 > * The **`RateLimiter`** class holds a map of `clientId → TokenBucket`, so it can handle many users independently. It exposes a single public method `allow(clientId)` to check if a request can pass.
 > * Finally, **`Main`** is just for testing; it simulates requests and prints whether they are allowed or rejected.
 >
