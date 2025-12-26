@@ -1,0 +1,235 @@
+https://excalidraw.com/#json=KRBUjBXTswI4n0p13tBIt,a-wdExjPVQWzpmXhL0qMBQ
+
+
+Low-Level Design: Inventory Management System 🏗️
+An inventory management system is designed to efficiently track, manage, and optimize product inventory within a business. 
+The system needs to handle multiple products, track stock levels, process orders, and ensure timely replenishment. 
+The system should be able to accommodate different product types, handle various inventory operations, and provide accurate reporting.
+
+
+Rules of the System:
+Setup:
+• The business has multiple warehouses and can store multiple product types.
+• Products can be added, removed, or transferred between warehouses.
+• Each product has attributes like SKU(Stock Keeping Unit - Unique Id of a Product), name, price, and quantity.
+• The system tracks inventory levels and triggers alerts for low stock.‍
+
+Operation:
+
+• Users can add new products to the inventory.
+• Stock levels are updated when products are received or shipped.
+• The system generates reports on inventory status and movement.
+• Inventory can be searched and filtered based on various criteria.
+
+
+Safety Features:
+• Threshold alerts prevent stockouts.
+• Audit trails track all inventory changes.
+• Access control limits who can perform different inventory operations.
+
+‍
+
+Interview Setting 🤝
+
+Point 1: Introduction and Vague Problem Statement:
+
+Interviewer: Let's start with a basic problem statement. Design an Inventory Management System.
+
+Candidate: Certainly! Here's my understanding of the Inventory Management System:
+
+• The system will manage multiple products across different warehouses.
+
+• Users can add, remove, and transfer inventory items.
+
+• The system tracks stock levels and alerts on low inventory.
+
+• Reports can be generated for inventory analysis.
+
+• The system should be scalable to handle businesses of different sizes.
+
+Is this the expected flow?
+
+Interviewer: Yes, you are aligned with the flow. Please continue ahead.
+
+Candidate: Great! Before diving into the design, I'd like to clarify a few requirements:
+
+• What types of products should the system support?
+
+• Are there specific inventory replenishment (restoration of stock) strategies to implement?
+
+• How should the system handle product categorization?
+
+‍
+
+Point 2: Clarifying Requirements :
+
+Interviewer: We want a system that:
+
+• Supports multiple product types in multiple warehouses.
+
+• Handles both inventory additions and removals.
+
+• Efficiently notifies when stock levels are low.
+
+‍
+
+Candidate: To summarize, the key requirements are:
+
+• A system with multiple warehouses and product categories.
+
+• Stock level tracking and management.
+
+• Intelligent replenishment strategy implementation.
+
+• Ability to handle edge cases like damaged inventory or returns.
+
+Interviewer: Perfect, let's proceed.
+
+‍
+
+Point 3: Identifying Key Components/Entities:
+
+Candidate: Now that we have the requirements, let's identify the key components of our Inventory Management System:
+
+Product: Represents individual products in inventory.
+
+• Class: Product
+
+• Description: This class represents individual products with their attributes.
+
+‍
+
+Java
+public class Product {
+    private String sku;
+    private String name;
+    private double price;
+    private int quantity;
+    private int threshold;
+    private ProductCategory category;
+}
+‍
+
+Warehouse: Contains products and manages storage.
+
+• Class: Warehouse
+
+Description: This class represents physical storage locations.
+
+‍
+
+Java
+public class Warehouse {
+    private int id;
+    private String name;
+    private String location;
+    private Map<String, Product> products; // SKU -> Product	    
+    public void addProduct(Product product, int quantity);
+    public void removeProduct(String sku, int quantity);
+    public int getAvailableQuantity(String sku);
+}
+‍
+
+InventoryManager: Manages inventory operations and tracking.
+
+• Class: InventoryManager
+
+Description: This class handles inventory operations and uses the Singleton pattern.
+
+‍
+
+Java
+public class InventoryManager {
+    private static InventoryManager instance;
+    private List<Warehouse> warehouses;
+    private ProductFactory productFactory;
+    private List<InventoryObserver> observers;
+    private ReplenishmentStrategy replenishmentStrategy;
+}
+‍
+
+Interviewer: That sounds good. Let's proceed with the design details.
+
+‍
+
+Point 4: Design Challenges:
+Interviewer: What design challenges do you anticipate?
+
+‍
+
+Candidate: The key challenges for the Inventory Management System include:
+
+1. Scalability: Handling large numbers of products and warehouses.
+
+2. Concurrency: Managing multiple simultaneous inventory operations.
+
+3. Data Consistency: Ensuring accurate inventory counts across the system.
+
+4. Customizable Replenishment: Supporting different replenishment strategies.
+
+5. Edge Cases: Handling product returns, damaged inventory, and seasonal demand fluctuations.
+
+Point 5: Approach:
+Interviewer: How would you approach these challenges?
+
+‍
+
+Candidate: I propose using design patterns effectively. Here are my strategies:
+
+1. Singleton Pattern for Inventory Manager: 
+
+• Ensures a single point of control for inventory operations.
+
+• Maintains consistency across the system.
+
+2. Observer Pattern for Inventory Alerts: 
+
+• Notifies relevant stakeholders when stock falls below thresholds.
+
+• Enables real-time inventory monitoring.
+
+‍
+
+3. Factory Pattern for Product Creation:
+
+• Encapsulates product creation logic.
+
+• Allows for easy addition of new product types.
+
+‍
+
+4. Strategy Pattern for Replenishment: 
+
+• Enables different replenishment strategies.
+
+• Can switch between algorithms based on product type or season.
+
+‍
+
+5. State Management with Enums: 
+
+• To effectively manage product categories and operations, we'll use enums.
+
+‍
+
+Java
+public enum ProductCategory { 
+     ELECTRONICS, CLOTHING, GROCERY, FURNITURE, OTHER 
+}
+
+public enum InventoryOperation { 
+     ADD, REMOVE, TRANSFER, ADJUST 
+}
+‍
+
+Interviewer: That sounds like a solid approach. Let's delve into the implementation details.
+
+‍
+
+Point 6: Implementation:
+Interviewer: Ready to discuss implementation?
+
+‍
+
+Candidate: Yes. I'll focus on implementing the design patterns we discussed and show how they work together in the Inventory Management System:
+
