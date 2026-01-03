@@ -37,6 +37,12 @@ public class SnakeGame {
         Position tail = body.peekLast();
 
         // collision check: allow moving into tail only if tail will be removed this move (!willGrow)
+        // IF
+    //     newHead hits the snake body
+    //     AND
+    //     it is NOT the case that (snake is not growing AND newHead is tail)
+    // THEN
+        // game over
         if (bodySet.contains(newHead) && !( !willGrow && newHead.equals(tail) )) {
             gameOver = true;
             return false;
