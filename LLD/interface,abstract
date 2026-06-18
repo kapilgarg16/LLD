@@ -4,6 +4,161 @@ Let’s go step-by-step — starting with **what interfaces** and **abstract cla
 
 ---
 
+Yes. In Java, **interfaces can contain methods**, but the way you define them depends on the Java version.
+
+## 1. Abstract Method (Most Common)
+
+An interface declares a method, and the implementing class provides the implementation.
+
+```java
+interface Animal {
+    void makeSound(); // abstract method
+}
+
+class Dog implements Animal {
+    @Override
+    public void makeSound() {
+        System.out.println("Bark");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal dog = new Dog();
+        dog.makeSound();
+    }
+}
+```
+
+### Output
+
+```
+Bark
+```
+
+---
+
+## 2. Default Method (Java 8+)
+
+Interfaces can provide a default implementation using the `default` keyword.
+
+```java
+interface Animal {
+
+    void makeSound();
+
+    default void sleep() {
+        System.out.println("Sleeping...");
+    }
+}
+
+class Dog implements Animal {
+
+    @Override
+    public void makeSound() {
+        System.out.println("Bark");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Dog dog = new Dog();
+
+        dog.makeSound();
+        dog.sleep();
+    }
+}
+```
+
+### Output
+
+```
+Bark
+Sleeping...
+```
+
+### Why?
+
+Suppose you already have 100 classes implementing `Animal`. Later, if you add a new method to the interface, all 100 classes would break. Using a `default` method avoids that.
+
+---
+
+## 3. Static Method (Java 8+)
+
+Interfaces can also have static methods.
+
+```java
+interface MathUtil {
+
+    static int add(int a, int b) {
+        return a + b;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        System.out.println(MathUtil.add(10, 20));
+    }
+}
+```
+
+### Output
+
+```
+30
+```
+
+Called using:
+
+```java
+MathUtil.add(10, 20);
+```
+
+---
+
+## 4. Private Method (Java 9+)
+
+Used internally by default/static methods.
+
+```java
+interface Logger {
+
+    default void logInfo() {
+        print("INFO");
+    }
+
+    private void print(String level) {
+        System.out.println(level);
+    }
+}
+```
+
+The private method cannot be accessed outside the interface.
+
+---
+
+## Interview Answer
+
+**Can we write functions in an interface?**
+
+**Yes.**
+
+* Before Java 8, interfaces could only contain **abstract methods**.
+* From Java 8 onwards, interfaces can also contain **default** and **static** methods with implementations.
+* From Java 9 onwards, interfaces can even have **private methods**.
+
+```java
+interface Test {
+    void method1();            // abstract
+    default void method2() {}  // default
+    static void method3() {}   // static
+    private void method4() {}  // private (Java 9+)
+}
+```
+
+This is a very common Java interview question.
+
+
 ## 🧩 1. Interface — “Contract” (What to do)
 
 An **interface** defines a *contract* — it tells *what* a class must do, not *how* it does it.
