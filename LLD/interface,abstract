@@ -4,6 +4,167 @@ Let’s go step-by-step — starting with **what interfaces** and **abstract cla
 
 ---
 
+Yes. An interface can define variables, but there is an important rule:
+
+> Every variable declared inside an interface is automatically **public static final**.
+
+That means:
+
+* `public` → accessible everywhere
+* `static` → belongs to the interface, not an object
+* `final` → constant, cannot be changed
+
+## Example 1: Defining a Variable in Interface
+
+```java
+interface Vehicle {
+    int MAX_SPEED = 120; // public static final
+}
+```
+
+Java internally treats it as:
+
+```java
+interface Vehicle {
+    public static final int MAX_SPEED = 120;
+}
+```
+
+---
+
+## How to Use It
+
+Access it using the interface name:
+
+```java
+interface Vehicle {
+    int MAX_SPEED = 120;
+}
+
+public class Main {
+    public static void main(String[] args) {
+        System.out.println(Vehicle.MAX_SPEED);
+    }
+}
+```
+
+### Output
+
+```java
+120
+```
+
+---
+
+## Example 2: Using in Implementing Class
+
+```java
+interface Vehicle {
+    int MAX_SPEED = 120;
+}
+
+class Car implements Vehicle {
+
+    public void printSpeed() {
+        System.out.println(MAX_SPEED);
+        // or Vehicle.MAX_SPEED
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Car car = new Car();
+        car.printSpeed();
+    }
+}
+```
+
+### Output
+
+```java
+120
+```
+
+---
+
+## Can We Modify It?
+
+❌ No
+
+```java
+interface Vehicle {
+    int MAX_SPEED = 120;
+}
+
+class Car implements Vehicle {
+
+    public void update() {
+        MAX_SPEED = 150; // Compilation Error
+    }
+}
+```
+
+Error because `MAX_SPEED` is `final`.
+
+---
+
+## Real-World Example
+
+```java
+interface AppConstants {
+
+    String DB_URL = "localhost:3306";
+    int CONNECTION_TIMEOUT = 5000;
+    String VERSION = "1.0";
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        System.out.println(AppConstants.DB_URL);
+        System.out.println(AppConstants.CONNECTION_TIMEOUT);
+    }
+}
+```
+
+Interfaces are sometimes used to store constants, though nowadays many developers prefer:
+
+```java
+public final class Constants {
+    public static final int MAX_USERS = 1000;
+}
+```
+
+because interfaces are primarily meant for defining behavior (methods), not holding constants.
+
+### Interview Answer
+
+**Can we define variables in an interface?**
+
+Yes. However, all interface variables are implicitly:
+
+```java
+public static final
+```
+
+So they act as constants and must be initialized at declaration time.
+
+```java
+interface Test {
+    int VALUE = 10; // public static final int VALUE = 10;
+}
+```
+
+Access using:
+
+```java
+Test.VALUE
+```
+
+and it cannot be modified later.
+
+
 Yes. In Java, **interfaces can contain methods**, but the way you define them depends on the Java version.
 
 ## 1. Abstract Method (Most Common)
