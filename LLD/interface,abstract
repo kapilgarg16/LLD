@@ -356,6 +356,494 @@ class CreditCardProcessor implements PaymentProcessor {
 * You need **multiple inheritance** behavior.
 
 ---
+For interviews, you should know **all major situations of Abstract Classes and Abstract Methods** in Java.
+
+---
+
+# 1. Abstract Class with Abstract Method
+
+An abstract method has **no body** and must be implemented by the child class.
+
+```java
+abstract class Animal {
+    abstract void sound();
+}
+
+class Dog extends Animal {
+    @Override
+    void sound() {
+        System.out.println("Bark");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Dog d = new Dog();
+        d.sound();
+    }
+}
+```
+
+### Output
+
+```text
+Bark
+```
+
+---
+
+# 2. Abstract Class with Concrete Method
+
+An abstract class can have normal methods.
+
+```java
+abstract class Animal {
+
+    void eat() {
+        System.out.println("Eating...");
+    }
+}
+
+class Dog extends Animal {
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Dog d = new Dog();
+        d.eat();
+    }
+}
+```
+
+### Output
+
+```text
+Eating...
+```
+
+---
+
+# 3. Abstract Class with Both Abstract and Concrete Methods
+
+Most common real-world use case.
+
+```java
+abstract class Animal {
+
+    abstract void sound();
+
+    void sleep() {
+        System.out.println("Sleeping");
+    }
+}
+
+class Dog extends Animal {
+
+    @Override
+    void sound() {
+        System.out.println("Bark");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Dog d = new Dog();
+
+        d.sound();
+        d.sleep();
+    }
+}
+```
+
+### Output
+
+```text
+Bark
+Sleeping
+```
+
+---
+
+# 4. Cannot Create Object of Abstract Class
+
+```java
+abstract class Animal {
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Animal a = new Animal(); // Error
+    }
+}
+```
+
+### Output
+
+```text
+Animal is abstract; cannot be instantiated
+```
+
+---
+
+# 5. Reference of Abstract Class Can Point to Child Object
+
+Polymorphism.
+
+```java
+abstract class Animal {
+    abstract void sound();
+}
+
+class Dog extends Animal {
+
+    @Override
+    void sound() {
+        System.out.println("Bark");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Animal a = new Dog();
+        a.sound();
+    }
+}
+```
+
+### Output
+
+```text
+Bark
+```
+
+---
+
+# 6. Child Must Implement All Abstract Methods
+
+```java
+abstract class Animal {
+    abstract void sound();
+}
+
+class Dog extends Animal {
+}
+```
+
+### Output
+
+Compilation Error
+
+```text
+Dog is not abstract and does not override sound()
+```
+
+---
+
+# 7. Child Can Also Be Abstract
+
+If child doesn't implement the method, make child abstract.
+
+```java
+abstract class Animal {
+    abstract void sound();
+}
+
+abstract class Dog extends Animal {
+}
+
+class Labrador extends Dog {
+
+    @Override
+    void sound() {
+        System.out.println("Bark");
+    }
+}
+```
+
+### Output
+
+```text
+Bark
+```
+
+(if Labrador object is created)
+
+---
+
+# 8. Abstract Class Constructor
+
+Abstract classes can have constructors.
+
+```java
+abstract class Animal {
+
+    Animal() {
+        System.out.println("Animal Constructor");
+    }
+}
+
+class Dog extends Animal {
+
+    Dog() {
+        System.out.println("Dog Constructor");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        new Dog();
+    }
+}
+```
+
+### Output
+
+```text
+Animal Constructor
+Dog Constructor
+```
+
+### Why?
+
+Parent constructor always executes first.
+
+---
+
+# 9. Abstract Class Can Have Instance Variables
+
+```java
+abstract class Animal {
+
+    String type = "Animal";
+
+    void printType() {
+        System.out.println(type);
+    }
+}
+
+class Dog extends Animal {
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Dog d = new Dog();
+        d.printType();
+    }
+}
+```
+
+### Output
+
+```text
+Animal
+```
+
+---
+
+# 10. Abstract Class Can Have Static Methods
+
+```java
+abstract class Animal {
+
+    static void info() {
+        System.out.println("Animal Info");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal.info();
+    }
+}
+```
+
+### Output
+
+```text
+Animal Info
+```
+
+---
+
+# 11. Abstract Class Can Have Final Methods
+
+Final methods cannot be overridden.
+
+```java
+abstract class Animal {
+
+    final void eat() {
+        System.out.println("Eating");
+    }
+}
+
+class Dog extends Animal {
+}
+```
+
+```java
+Dog d = new Dog();
+d.eat();
+```
+
+### Output
+
+```text
+Eating
+```
+
+---
+
+# 12. Abstract Class Cannot Be Final
+
+❌ Invalid
+
+```java
+final abstract class Animal {
+}
+```
+
+### Error
+
+```text
+illegal combination of modifiers: abstract and final
+```
+
+### Why?
+
+* `abstract` → must be inherited.
+* `final` → cannot be inherited.
+
+Contradiction.
+
+---
+
+# 13. Abstract Method Cannot Be Private
+
+❌ Invalid
+
+```java
+abstract class Animal {
+
+    private abstract void sound();
+}
+```
+
+### Error
+
+```text
+illegal combination of modifiers
+```
+
+### Why?
+
+Child class cannot override a private method.
+
+---
+
+# 14. Abstract Method Cannot Be Static
+
+❌ Invalid
+
+```java
+abstract class Animal {
+
+    abstract static void sound();
+}
+```
+
+### Error
+
+```text
+illegal combination of modifiers
+```
+
+### Why?
+
+* Abstract method requires overriding.
+* Static methods are not overridden.
+
+---
+
+# 15. Abstract Method Cannot Be Final
+
+❌ Invalid
+
+```java
+abstract class Animal {
+
+    final abstract void sound();
+}
+```
+
+### Error
+
+```text
+illegal combination of modifiers
+```
+
+### Why?
+
+* Abstract → must override.
+* Final → cannot override.
+
+Contradiction.
+
+---
+
+# 16. Anonymous Class with Abstract Class
+
+```java
+abstract class Animal {
+    abstract void sound();
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Animal a = new Animal() {
+            @Override
+            void sound() {
+                System.out.println("Bark");
+            }
+        };
+
+        a.sound();
+    }
+}
+```
+
+### Output
+
+```text
+Bark
+```
+
+---
+
+# Interview Summary Table
+
+| Feature                                  | Allowed? |
+| ---------------------------------------- | -------- |
+| Abstract class object creation           | ❌ No     |
+| Constructor in abstract class            | ✅ Yes    |
+| Variables in abstract class              | ✅ Yes    |
+| Concrete methods                         | ✅ Yes    |
+| Abstract methods                         | ✅ Yes    |
+| Static methods                           | ✅ Yes    |
+| Final methods                            | ✅ Yes    |
+| Abstract + Final class                   | ❌ No     |
+| Abstract method + Private                | ❌ No     |
+| Abstract method + Static                 | ❌ No     |
+| Abstract method + Final                  | ❌ No     |
+| Child must implement abstract methods    | ✅ Yes    |
+| Abstract class reference to child object | ✅ Yes    |
+
+These 16 scenarios cover almost every abstract-class interview question asked in Java backend interviews.
+
+
 
 ## 🧱 2. Abstract Class — “Template” (How to do, partially)
 
